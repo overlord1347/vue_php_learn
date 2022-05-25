@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block body %}
+    <header>
+        <p>Header</p>
+        <div id="modalWindow">
+            hui
+            <modalWindow ref="modal">
+            </modalWindow>
+
+
+        </div>
+    </header>
+    <main>
+        <div ref="words" data-words="{{ words|join(',') }}">
+
+        </div>
+
+        <div id="app">
+            <app></app>
+        </div>
+
+
+        <nav>
+            <p>Navigation</p>
+        </nav>
+        <aside>
+            <p>Sidebar</p>
+        </aside>
+    </main>
+    <footer>
+        <p>Footer</p>
+    </footer>
+{% endblock %}

@@ -1,21 +1,68 @@
-version: '3'
+version: '3.7'
+
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-13}-alpine
+  web:
+    container_name: nginx
+    build:
+      context: app/dockerFiles/nginx
+    #    uncommented this line if you have apple silicon proc
+    platform: linux/amd64
+    ports:
+      - "8080:80"
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
-      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+      XDEBUG_CONFIG: remote_host=${HOST_IP:-host.docker.internal}
     volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - ./:/projectX
+    depends_on:
+      - php
+      - mysql
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
-###< doctrine/doctrine-bundle ###
+  php:
+    build: ./app/DockerFiles/php
+    container_name: php_test
+    volumes:
+      - ./:/projectX
+      - ./app/DockerFiles/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./app/DockerFiles/php/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+    expose:
+      - 9000
+
+
+  mysql:
+    container_name: mysql
+    #    uncommented this line if you have apple silicon proc
+    platform: linux/amd64
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./app/db/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitMq
+    ports:
+      - "15671:15671"
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "WHATISTHISCOOKIEANDWHY"
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmqpass
+      RABBITMQ_DEFAULT_VHOST: "/"
+
+
+  phpmyadmin:
+    container_name: phpmyAdmin
+    #    uncommented this line if you have apple silicon proc
+    platform: linux/amd64
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8082:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
