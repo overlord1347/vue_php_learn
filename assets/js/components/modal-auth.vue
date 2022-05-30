@@ -1,7 +1,9 @@
 <template>
   <button class="show-modal-button" @click="showModal">Войти</button>
   <button class="show-modal-button" @click="showModalTwo">Регистрация</button>
+
   <modal-window ref="modal">
+    <notifications position="bottom right" classes="my-custom-class" />
 
     <template v-slot:title>
       <h3 class="modal-title">Войти на сайт</h3>
@@ -10,17 +12,14 @@
 
       <form action="" class="ui-form">
         <div class="form-row">
-          <input type="text" id="email" required autocomplete="off"><label for="email">Email</label>
+          <input type="text" id="email" autocomplete="off"><label for="email">Email</label>
         </div>
         <div class="form-row">
-          <input type="password" id="password" required autocomplete="off"><label for="password">Пароль</label>
+          <input type="password" id="password" autocomplete="off"><label for="password">Пароль</label>
         </div>
         <p><input type="submit" value="Войти"></p>
       </form>
     </template>
-<!--    <template v-slot:footer>-->
-<!--      <button class="modal-footer__button" @click="sendDataFunction">Отправить</button>-->
-<!--    </template>-->
   </modal-window>
 
   <modal-window ref="modalTwo">
@@ -31,15 +30,22 @@
 
       <form action="" class="ui-form">
         <div class="form-row">
-          <input type="text" id="emailreg" required autocomplete="off"><label for="emailreg">Email</label>
+          <input
+              type="text"
+              id="emailreg"
+              required
+              v-model="email">
+          <label for="emailreg">Email</label>
         </div>
         <div class="form-row">
-          <input type="password" id="passwordreg" required autocomplete="off"><label for="passwordreg">Пароль</label>
+          <input type="text" id="fullname" required autocomplete="off" v-model="fullname"><label
+            for="fullname">Имя</label>
         </div>
         <div class="form-row">
-          <input type="password" id="passwordreg2" required autocomplete="off"><label for="passwordreg2">Пароль еще раз</label>
+          <input type="password" id="passwordreg" required autocomplete="off" v-model="password"><label
+            for="passwordreg">Пароль</label>
         </div>
-        <p><input type="submit" value="Зарегистрироваться"></p>
+        <p><input value="Зарегистрироваться" @click="sendDataFunction"></p>
       </form>
     </template>
   </modal-window>
@@ -47,6 +53,7 @@
 </template>
 <script>
 import ModalWindow from './modal-window.vue'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -55,7 +62,10 @@ export default {
   },
   data() {
     return {
-      signin: true
+      signin: true,
+      email: '',
+      password: '',
+      fullname: '',
     };
   },
   methods: {
@@ -66,7 +76,35 @@ export default {
       this.$refs.modalTwo.show = true
     },
     sendDataFunction: function () {
-// обработчик отправки данных
+
+      const formData = new FormData();
+
+      formData.append('email', this.$data.email)
+      formData.append('plainPassword', this.$data.password)
+      formData.append('name', this.$data.fullname)
+
+      axios.post("auth/register",
+          formData,
+          {
+            headers: {
+              "Content-type": "application/json"
+            }
+          }).then(function (response) {
+
+            // this.$notification(
+            //     'Good job!',
+            //     'You clicked the button!',
+            //     'success',
+            //     async () => {
+            //       console.log('Clicked notification')
+            //     },
+            //     'A minute ago'
+            // )
+        location.reload();
+      }).catch(function (error) {
+        console.log(error)
+      })
+
     },
     openRegistration: function () {
       this.signin = false

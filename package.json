@@ -7,6 +7,7 @@
         "regenerator-runtime": "^0.13.2",
         "sass": "^1.52.1",
         "sass-loader": "^12.6.0",
+        "tailwindcss": "^3.0.24",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -18,8 +19,13 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "axios": "^0.27.2",
         "vue": "^3.2.35",
+        "vue-axios": "^3.4.1",
         "vue-loader": "^17.0.0",
-        "vue-template-compiler": "^2.6.14"
+        "vue-router": "^4.0.15",
+        "vue-template-compiler": "^2.6.14",
+        "vue-toastification": "^2.0.0-rc.5",
+        "vue3-vt-notifications": "^1.0.1"
     }
 }
