@@ -53,3 +53,8 @@ footer {
         flex: 1 1 auto;
     }
 }
+
+#modalWindow {
+    margin-left: 80%;
+    padding-top: 20px;
+}

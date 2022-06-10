@@ -21,7 +21,9 @@
   </div>
 </template>
 <script>
+
 export default {
+
   name: "ModalWindow",
   data: function () {
     return {

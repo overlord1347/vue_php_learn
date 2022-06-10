@@ -25,6 +25,9 @@ RUN pecl install xdebug-3.1.4 && docker-php-ext-enable xdebug
 
 RUN docker-php-ext-install sockets
 
+RUN apt-get install -y zlib1g-dev libicu-dev g++
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
+
 WORKDIR /projectX
 
 # Добавим свой php.ini, можем в нем определять свои значения конфига

@@ -7,15 +7,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\AppCustomAuthenticator;
-use App\Services\Credentials\CredentialsService;
-use App\Services\User\UserService;
-use App\Utils\Strings;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -64,11 +59,19 @@ class AuthController extends AbstractController
                 dd($exception);
             }
         } else {
-            dd($form->getErrors(true, true)->current()->getMessage());
+            return new JsonResponse($form->getErrors(true, true)->current()->getMessage(), 400);
         }
 
         $userAuthenticator->authenticateUser($user, $appCustomAuthenticator, $request);
 
-        return $this->json("success");
+        return new JsonResponse('AAvdsagsdgs');
     }
+//
+//    /**
+//     * @Route("/logout", name="app_logout")
+//     */
+//    public function logout(): void
+//    {
+//        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+//    }
 }
