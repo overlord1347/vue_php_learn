@@ -66,3 +66,13 @@ services:
       - PMA_HOST=mysql
       - PMA_USER=root
       - PMA_PASSWORD=root
+
+  chat:
+    container_name: chat
+    build: ./app/DockerFiles/php
+    ports:
+      - 8000:10000
+    restart: always
+    volumes:
+      - ./:/var/www/symfony:cached
+      - /etc/timezone:/etc/timezone:cached
