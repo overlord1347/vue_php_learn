@@ -18,11 +18,6 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-        $words = ['sky', 'cloud', 'wood', 'rock', 'forest',
-            'mountain', 'breeze'];
-
-        return $this->render('home/index.html.twig', [
-            'words' => $words
-        ]);
+        return $this->render('home/index.html.twig');
     }
 }

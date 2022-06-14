@@ -3,7 +3,8 @@
 
   <div id="main-container" class="hidden">
     <div id="messages">
-
+      <p class="text-messages">Mess</p>
+      <p class="text-messages">Mes2s</p>
     </div>
 
     <div id="msg-container">
@@ -15,6 +16,11 @@
 </template>
 
 <script>
+const hubUrl = 'http://localhost:8001/.well-known/mercure';
+const eventSource = new EventSource(`${hubUrl}?topic=1e9`);
+eventSource.onmessage = event => {
+  console.log(event);
+}
 
 export default {
 
@@ -28,6 +34,7 @@ export default {
 }
 
 #messages {
+  background-color: white;
   height: 300px;
   width: 800px;
   border: 1px solid #ccc;
@@ -42,6 +49,12 @@ export default {
 
 #msg {
   width: 400px;
+}
+
+.text-messages {
+  margin-top: -50px;
+  width: 100%;
+  color: black;
 }
 
 
