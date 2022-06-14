@@ -1,12 +1,16 @@
 <template>
-  <div>
-    <h2 class="center">My Application</h2>
-    <div v-text="message"></div>
-    <ul>
-      <li :key="word.id" v-for="word in words">{{ word }}</li>
-    </ul>
-  </div>
+  <h2 class="center">Онлайн Чат</h2>
 
+  <div id="main-container" class="hidden">
+    <div id="messages">
+
+    </div>
+
+    <div id="msg-container">
+      <input type="text" id="msg" name="msg">
+      <button type="button" id="send-msg">Send</button>
+    </div>
+  </div>
 
 </template>
 
@@ -15,20 +19,6 @@
 export default {
 
   name: 'App',
-  data() {
-    return {
-      message: "A list of words",
-      words: []
-    };
-  },
-  mounted() {
-
-    let el = document.querySelector("div[data-words]");
-    let mywords = el.dataset.words.split(",");
-
-    this.words.push.apply(this.words, mywords);
-
-  },
 };
 </script>
 
@@ -36,4 +26,23 @@ export default {
 .center {
   text-align: center;
 }
+
+#messages {
+  height: 300px;
+  width: 800px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: left;
+  overflow-y: scroll;
+}
+
+#msg-container {
+  padding: 20px;
+}
+
+#msg {
+  width: 400px;
+}
+
+
 </style>

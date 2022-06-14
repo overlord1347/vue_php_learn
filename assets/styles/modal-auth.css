@@ -99,7 +99,7 @@ body {
     color: #F77A52;
 }
 
-input {
+.authinput {
     width: 100%;
     padding: 0;
     line-height: 42px;

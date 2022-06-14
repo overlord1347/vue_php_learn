@@ -11,12 +11,12 @@
 
       <form action="" class="ui-form">
         <div class="form-row">
-          <input type="text" id="email" autocomplete="off" v-model="email"><label for="email">Email</label>
+          <input class="authinput" type="text" id="email" autocomplete="off" v-model="email"><label for="email">Email</label>
         </div>
         <div class="form-row">
-          <input type="password" id="password" autocomplete="off" v-model="password"><label for="password">Пароль</label>
+          <input class="authinput" type="password" id="password" autocomplete="off" v-model="password"><label for="password">Пароль</label>
         </div>
-        <p><input value="Войти" @click="onLogin" ></p>
+        <p><input class="authinput" value="Войти" @click="onLogin" ></p>
       </form>
     </template>
   </modal-window>
@@ -30,7 +30,7 @@
 
       <form action="" class="ui-form">
         <div class="form-row">
-          <input
+          <input class="authinput"
               type="text"
               id="emailreg"
               required
@@ -38,14 +38,14 @@
           <label for="emailreg">Email</label>
         </div>
         <div class="form-row">
-          <input type="text" id="fullname" required autocomplete="off" v-model="fullname"><label
+          <input class="authinput" type="text" id="fullname" required autocomplete="off" v-model="fullname"><label
             for="fullname">Имя</label>
         </div>
         <div class="form-row">
-          <input type="password" id="passwordreg" required autocomplete="off" v-model="password"><label
+          <input class="authinput" type="password" id="passwordreg" required autocomplete="off" v-model="password"><label
             for="passwordreg">Пароль</label>
         </div>
-        <p><input value="Зарегистрироваться" @click="sendDataFunction"></p>
+        <p><input class="authinput" value="Зарегистрироваться" @click="sendDataFunction"></p>
       </form>
     </template>
   </modal-window>
