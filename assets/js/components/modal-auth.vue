@@ -134,7 +134,7 @@ export default {
 
         toast.success('Вы успешно вошли, страница сейчас перезагрузится')
 
-        // setTimeout(() => window.location.reload(),  2000)
+        setTimeout(() => window.location.reload(),  2000)
       }).catch(function (error) {
 
         const toast = useToast();

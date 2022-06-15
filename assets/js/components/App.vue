@@ -26,11 +26,11 @@ window.onload = function() {
 };
 
 const hubUrl = 'http://localhost:8001/.well-known/mercure';
-const eventSource = new EventSource(`${hubUrl}?topic=1e9`);
+const eventSource = new EventSource(`${hubUrl}?topic=/conversations/1`);
 eventSource.onmessage = event => {
 
   const data = JSON.parse(event.data);
-  console.log(data.headline)
+  console.log(data)
   let messagesblock = document.getElementById("messages");
   const message = document.createElement('p');
   message.classList.add('text-messages')

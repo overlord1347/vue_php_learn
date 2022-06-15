@@ -48,6 +48,8 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $user->setRoles(['ROLE_USER']);
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -68,7 +70,7 @@ class SecurityController extends AbstractController
 
         $userAuthenticator->authenticateUser($user, $appCustomAuthenticator, $request);
 
-        return new JsonResponse('AAvdsagsdgs');
+        return new JsonResponse('ok');
     }
 
     /**
