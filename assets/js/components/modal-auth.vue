@@ -93,7 +93,7 @@ export default {
       formData.append('plainPassword', this.$data.password)
       formData.append('name', this.$data.fullname)
 
-      axios.post("auth/register",
+      axios.post("register",
           formData,
           {
             headers: {
