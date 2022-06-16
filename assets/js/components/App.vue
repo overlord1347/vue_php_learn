@@ -20,26 +20,30 @@
 
 import {useToast} from "vue-toastification";
 
-window.onload = function() {
+window.onload = function () {
   let block = document.getElementById("messages");
   block.scrollTop = block.scrollHeight;
 };
 
-const hubUrl = 'http://localhost:8001/.well-known/mercure';
-const eventSource = new EventSource(`${hubUrl}?topic=/conversations/1`);
-eventSource.onmessage = event => {
+const url = new URL('http://127.0.0.1:3000/.well-known/mercure');
+url.searchParams.append('topic', '/conversations/1');
 
-  const data = JSON.parse(event.data);
+const es = new EventSource(url);
+es.onmessage = (msg) => {
+  const data = JSON.parse(msg.data);
   console.log(data)
   let messagesblock = document.getElementById("messages");
   const message = document.createElement('p');
   message.classList.add('text-messages')
-  message.textContent = data.headline
-  messagesblock.appendChild(message)
+  message.textContent = data.messageText
+  messagesblock.prepend(message)
+  // messagesblock.insertAdjacentHTML("afterbegin", message);
+
 
   // скроллим диалог вниз после получения сообщений
   let block = document.getElementById("messages");
   block.scrollTop = block.scrollHeight;
+  console.log(msg);
 }
 
 import axios from 'axios'
@@ -70,7 +74,7 @@ export default {
               "Content-type": "application/json",
             }
           }).then(function (response) {
-            console.log(response)
+        console.log(response)
       }).catch(function (error) {
         console.log(error)
       })

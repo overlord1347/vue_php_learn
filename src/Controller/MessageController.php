@@ -56,21 +56,22 @@ class MessageController extends AbstractController
             $this->entityManager->persist($message);
             $this->entityManager->flush();
 
-        }catch (\Throwable $exception) {
+        } catch (\Throwable $exception) {
             return new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $messageData = $serializer->serialize($message, 'json', ['groups' => ['normal']]);
+        $messageData = $serializer->serialize($message, 'json', [
+            'attributes' => ['id', 'messageText']]);
+
         $update = new Update(
             sprintf('/conversations/%d', 1),
-            '{213:123}',
-            true
+            $messageData,
         );
 
         try {
             $this->publisher->publish($update);
-        }catch (\Throwable $exception) {
-            dd($exception->getMessage());
+        } catch (\Throwable $exception) {
+            dd($exception->getMessage(), $update);
         }
 
         return new Response('ok');
