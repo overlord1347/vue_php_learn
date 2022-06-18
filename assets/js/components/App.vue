@@ -34,6 +34,8 @@ es.onmessage = (msg) => {
   console.log(data)
   let messagesblock = document.getElementById("messages");
   const message = document.createElement('p');
+
+  // добавляем соообщение которое пришла к низу блока
   message.classList.add('text-messages')
   message.textContent = data.messageText
   messagesblock.prepend(message)
@@ -43,7 +45,6 @@ es.onmessage = (msg) => {
   // скроллим диалог вниз после получения сообщений
   let block = document.getElementById("messages");
   block.scrollTop = block.scrollHeight;
-  console.log(msg);
 }
 
 import axios from 'axios'
@@ -61,12 +62,14 @@ export default {
   },
 
   methods: {
+
     sendMessage: function () {
       const formData = new FormData();
 
       formData.append('messageText', this.$data.messageText)
 
 
+      this.$data.messageText = ""
       axios.post("message/send",
           formData,
           {
@@ -78,42 +81,9 @@ export default {
       }).catch(function (error) {
         console.log(error)
       })
+      this.$data.messageText = ""
 
     }
   }
 };
 </script>
-
-<style>
-.center {
-  text-align: center;
-}
-
-#messages {
-  display: flex;
-  flex-direction: column-reverse;
-  background-color: white;
-  height: 300px;
-  width: 800px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
-  overflow: auto;
-  overflow-y: scroll;
-
-}
-
-#msg-container {
-  padding: 20px;
-}
-
-#msg {
-  width: 400px;
-}
-
-.text-messages {
-  width: 100%;
-  color: black;
-}
-
-</style>

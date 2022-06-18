@@ -58,3 +58,35 @@ footer {
     margin-left: 80%;
     padding-top: 20px;
 }
+
+
+.center {
+    text-align: center;
+}
+
+#messages {
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: white;
+    height: 300px;
+    width: 800px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    overflow: auto;
+    overflow-y: scroll;
+
+}
+
+#msg-container {
+    padding: 20px;
+}
+
+#msg {
+    width: 400px;
+}
+
+.text-messages {
+    width: 100%;
+    color: black;
+}

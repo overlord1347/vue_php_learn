@@ -40,17 +40,11 @@ class MessageController extends AbstractController
      */
     public function send(Request $request, SerializerInterface $serializer): Response
     {
-
-        if (!$this->getUser()) {
-            return new JsonResponse('error', Response::HTTP_FORBIDDEN);
-        }
-
         $user = $this->getUser();
 
         $message = new Message();
         $message->setSenderId($user)
-            ->setMessageText($request->request->get('messageText'))
-            ->setRecieverIds(['*']);
+            ->setMessageText($request->request->get('messageText'));
 
         try {
             $this->entityManager->persist($message);
@@ -71,7 +65,7 @@ class MessageController extends AbstractController
         try {
             $this->publisher->publish($update);
         } catch (\Throwable $exception) {
-            dd($exception->getMessage(), $update);
+//            dd($exception->getMessage(), $update);
         }
 
         return new Response('ok');

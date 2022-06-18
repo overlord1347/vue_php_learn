@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=MessageRepository::class)
- * @ORM\HasLifecycleCallbacks()
  */
 class Message
 {
@@ -25,24 +24,19 @@ class Message
     private $sender_id;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $reciever_ids = [];
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $date_created;
-
-    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private $date_last_modified;
 
     /**
-     * @ORM\Column(type="string", length=1024)
+     * @ORM\Column(type="text")
      */
     private $message_text;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $date_created;
 
     public function getId(): ?int
     {
@@ -61,30 +55,6 @@ class Message
         return $this;
     }
 
-    public function getRecieverIds(): ?array
-    {
-        return $this->reciever_ids;
-    }
-
-    public function setRecieverIds(?array $reciever_ids): self
-    {
-        $this->reciever_ids = $reciever_ids;
-
-        return $this;
-    }
-
-    public function getDateCreated(): ?\DateTimeImmutable
-    {
-        return $this->date_created;
-    }
-
-    public function setDateCreated(\DateTimeImmutable $date_created): self
-    {
-        $this->date_created = $date_created;
-
-        return $this;
-    }
-
     public function getDateLastModified(): ?\DateTimeImmutable
     {
         return $this->date_last_modified;
@@ -97,24 +67,6 @@ class Message
         return $this;
     }
 
-    /**
-     * @ORM\PreUpdate()
-     */
-    public function updateModifiedDatetime() {
-        // update the modified time
-        $this->setDateLastModified(new \DateTimeImmutable());
-    }
-
-    /**
-     * @ORM\PrePersist()
-     */
-    public function updateCreatedDatetime() {
-        // update the modified time
-        $this->setDateCreated(new \DateTimeImmutable());
-        $this->setDateLastModified(new \DateTimeImmutable());
-
-    }
-
     public function getMessageText(): ?string
     {
         return $this->message_text;
@@ -123,6 +75,18 @@ class Message
     public function setMessageText(string $message_text): self
     {
         $this->message_text = $message_text;
+
+        return $this;
+    }
+
+    public function getDateCreated(): ?\DateTimeImmutable
+    {
+        return $this->date_created;
+    }
+
+    public function setDateCreated(\DateTimeImmutable $date_created): self
+    {
+        $this->date_created = $date_created;
 
         return $this;
     }
