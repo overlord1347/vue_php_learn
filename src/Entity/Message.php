@@ -91,4 +91,23 @@ class Message
 
         return $this;
     }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function updateCreatedDatetime()
+    {
+        // update the modified time
+        $this->setDateCreated(new \DateTimeImmutable());
+        $this->setDateLastModified(new \DateTimeImmutable());
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        // update the modified time
+        $this->setDateLastModified(new \DateTimeImmutable());
+    }
 }
