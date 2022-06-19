@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Message;
@@ -13,6 +15,9 @@ use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * @Route("/message", name="message_")
+ */
 class MessageController extends AbstractController
 {
     /**
@@ -36,7 +41,7 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/message/send", name="app_message", methods={"POST"})
+     * @Route("send", name="send", methods={"POST"})
      */
     public function send(Request $request, SerializerInterface $serializer): Response
     {
@@ -69,5 +74,14 @@ class MessageController extends AbstractController
         }
 
         return new Response('ok');
+    }
+
+    /**
+     * @Route("/get/all/")
+     * @return void
+     */
+    public function getAllMessages(): Response
+    {
+
     }
 }

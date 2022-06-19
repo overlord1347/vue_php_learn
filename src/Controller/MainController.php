@@ -36,7 +36,6 @@ class MainController extends AbstractController
     {
         $messagesList = $this->messageRepository->findBy([], ['date_created' => 'DESC'], 10);
 
-
         $messages = $serializer->serialize($messagesList, 'json', [
             'attributes' => ['id', 'messageText']]);
 
