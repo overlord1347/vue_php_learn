@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Message;
+use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,17 +32,24 @@ class MessageController extends AbstractController
     private $publisher;
 
     /**
+     * @var MessageRepository
+     */
+    private $messageRepository;
+
+    /**
      * @param EntityManagerInterface $entityManager
      * @param HubInterface $publisher
+     * @param MessageRepository $messageRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, HubInterface $publisher)
+    public function __construct(EntityManagerInterface $entityManager, HubInterface $publisher, MessageRepository $messageRepository)
     {
         $this->entityManager = $entityManager;
         $this->publisher = $publisher;
+        $this->messageRepository = $messageRepository;
     }
 
     /**
-     * @Route("send", name="send", methods={"POST"})
+     * @Route("/send", name="send", methods={"POST"})
      */
     public function send(Request $request, SerializerInterface $serializer): Response
     {
@@ -77,11 +85,17 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/get/all/")
+     * @Route("/get/all")
+     *
      * @return void
      */
-    public function getAllMessages(): Response
+    public function getAllMessages(SerializerInterface $serializer): Response
     {
+        $messagesList = $this->messageRepository->findBy([], ['date_created' => 'DESC'], 10);
 
+        $messages = $serializer->serialize($messagesList, 'json', [
+            'attributes' => ['id', 'messageText']]);
+
+        return new Response($messages);
     }
 }

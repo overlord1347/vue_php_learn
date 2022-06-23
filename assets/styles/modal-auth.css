@@ -115,6 +115,12 @@ body {
     padding-top: 10px;
 }
 
+.top-log-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 .show-modal-button {
     display: inline-block;
     box-sizing: border-box;
@@ -123,8 +129,6 @@ body {
     outline: none;
     border: 1px solid #fff;
     border-radius: 50px;
-    height: 46px;
-    line-height: 46px;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
@@ -137,4 +141,6 @@ body {
     touch-action: manipulation;
     vertical-align: top;
     transition: box-shadow 0.2s;
+    width: 10em;
+    height: 2em;
 }

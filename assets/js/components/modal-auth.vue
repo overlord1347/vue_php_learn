@@ -1,8 +1,11 @@
 <template>
-  <button class="show-modal-button" @click="showModal">Войти</button>
-  <button class="show-modal-button" @click="showModalTwo">Регистрация</button>
+  <div class="top-log-buttons">
 
-<!--  окно для входа на сайт-->
+    <button class="show-modal-button" @click="showModal">Войти</button>
+    <button class="show-modal-button" @click="showModalTwo">Регистрация</button>
+
+  </div>
+  <!--  окно для входа на сайт-->
   <modal-window ref="modal">
     <template v-slot:title>
       <h3 class="modal-title">Войти на сайт</h3>
@@ -11,17 +14,19 @@
 
       <form action="" class="ui-form">
         <div class="form-row">
-          <input class="authinput" type="text" id="email" autocomplete="off" v-model="email"><label for="email">Email</label>
+          <input class="authinput" type="text" id="email" autocomplete="off" v-model="email"><label
+            for="email">Email</label>
         </div>
         <div class="form-row">
-          <input class="authinput" type="password" id="password" autocomplete="off" v-model="password"><label for="password">Пароль</label>
+          <input class="authinput" type="password" id="password" autocomplete="off" v-model="password"><label
+            for="password">Пароль</label>
         </div>
-        <p><input class="authinput" value="Войти" @click="onLogin" ></p>
+        <p><input class="authinput" value="Войти" @click="onLogin"></p>
       </form>
     </template>
   </modal-window>
 
-<!--  окно для регистрации -->
+  <!--  окно для регистрации -->
   <modal-window ref="modalTwo">
     <template v-slot:title>
       <h3 class="modal-title">Регистрация</h3>
@@ -31,10 +36,10 @@
       <form action="" class="ui-form">
         <div class="form-row">
           <input class="authinput"
-              type="text"
-              id="emailreg"
-              required
-              v-model="email">
+                 type="text"
+                 id="emailreg"
+                 required
+                 v-model="email">
           <label for="emailreg">Email</label>
         </div>
         <div class="form-row">
@@ -42,7 +47,8 @@
             for="fullname">Имя</label>
         </div>
         <div class="form-row">
-          <input class="authinput" type="password" id="passwordreg" required autocomplete="off" v-model="password"><label
+          <input class="authinput" type="password" id="passwordreg" required autocomplete="off"
+                 v-model="password"><label
             for="passwordreg">Пароль</label>
         </div>
         <p><input class="authinput" value="Зарегистрироваться" @click="sendDataFunction"></p>
@@ -105,12 +111,12 @@ export default {
 
         toast.success('Вы успешно вошли, страница сейчас перезагрузится')
 
-        setTimeout(() => window.location.reload(),  2000)
+        setTimeout(() => window.location.reload(), 2000)
       }).catch(function (error) {
 
         const toast = useToast();
 
-        toast. error(error.response.data);
+        toast.error(error.response.data);
       })
 
     },
@@ -134,11 +140,11 @@ export default {
 
         toast.success('Вы успешно вошли, страница сейчас перезагрузится')
 
-        setTimeout(() => window.location.reload(),  2000)
+        setTimeout(() => window.location.reload(), 2000)
       }).catch(function (error) {
 
         const toast = useToast();
-        toast. error(error.message);
+        toast.error(error.message);
       })
     }
   },

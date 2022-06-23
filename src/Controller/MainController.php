@@ -15,32 +15,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 class MainController extends AbstractController
 {
     /**
-     * @var MessageRepository
-     */
-    private $messageRepository;
-
-    /**
-     * @param MessageRepository $messageRepository
-     */
-    public function __construct(MessageRepository $messageRepository)
-    {
-        $this->messageRepository = $messageRepository;
-    }
-
-    /**
      * Main page action
      *
      * @Route("/", name="main")
+     *
+     * @return Response
      */
-    public function index(SerializerInterface $serializer): Response
+    public function index(): Response
     {
-        $messagesList = $this->messageRepository->findBy([], ['date_created' => 'DESC'], 10);
-
-        $messages = $serializer->serialize($messagesList, 'json', [
-            'attributes' => ['id', 'messageText']]);
-
-//        dd($messages);
-//        return $this->json($messages);
-        return $this->render('home/index.html.twig', ['messages' => $messages]);
+        return $this->render('home/index.html.twig');
     }
 }

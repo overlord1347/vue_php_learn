@@ -4,8 +4,7 @@
   <div id="main-container" class="hidden">
     <div id="messages">
 
-      <p class="text-messages">Mes1s</p>
-      <p class="text-messages">Mes2s</p>
+      <p class="text-messages" v-for="message in messagesList"> {{message.messageText}}</p>
     </div>
 
     <div id="msg-container">
@@ -18,7 +17,7 @@
 
 <script>
 
-import {useToast} from "vue-toastification";
+import axios from 'axios'
 
 window.onload = function () {
   let block = document.getElementById("messages");
@@ -39,7 +38,6 @@ es.onmessage = (msg) => {
   message.classList.add('text-messages')
   message.textContent = data.messageText
   messagesblock.prepend(message)
-  // messagesblock.insertAdjacentHTML("afterbegin", message);
 
 
   // скроллим диалог вниз после получения сообщений
@@ -47,7 +45,7 @@ es.onmessage = (msg) => {
   block.scrollTop = block.scrollHeight;
 }
 
-import axios from 'axios'
+
 
 
 export default {
@@ -57,6 +55,7 @@ export default {
 
   data() {
     return {
+      messagesList: [],
       messageText: ""
     }
   },
@@ -84,6 +83,11 @@ export default {
       this.$data.messageText = ""
 
     }
+  },
+
+  mounted() {
+    axios.get("message/get/all").then(response => (this.messagesList = response.data))
+
   }
 };
 </script>
