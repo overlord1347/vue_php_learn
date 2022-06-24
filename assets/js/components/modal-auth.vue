@@ -1,10 +1,20 @@
 <template>
+
+
+
   <div class="top-log-buttons">
 
-    <button class="show-modal-button" @click="showModal">Войти</button>
-    <button class="show-modal-button" @click="showModalTwo">Регистрация</button>
+    <template v-if="isAuth">
+    <button class="show-modal-button" @click="logout">Выйти</button>
+    </template>
 
+    <template v-else>
+      <button class="show-modal-button" @click="showModal">Войти</button>
+      <button class="show-modal-button" @click="showModalTwo">Регистрация</button>
+    </template>
   </div>
+
+
   <!--  окно для входа на сайт-->
   <modal-window ref="modal">
     <template v-slot:title>
@@ -71,10 +81,9 @@ export default {
     ModalWindow
   },
 
-
   data() {
     return {
-      signin: true,
+      isAuth: localStorage.auth === 'true',
       email: '',
       password: '',
       fullname: '',
@@ -109,7 +118,9 @@ export default {
 
         const toast = useToast();
 
-        toast.success('Вы успешно вошли, страница сейчас перезагрузится')
+        toast.success('Вы успешно вошли, страница сейчас перезагрузится');
+
+        localStorage.auth = true
 
         setTimeout(() => window.location.reload(), 2000)
       }).catch(function (error) {
@@ -138,7 +149,9 @@ export default {
 
         const toast = useToast();
 
-        toast.success('Вы успешно вошли, страница сейчас перезагрузится')
+        toast.success('Вы успешно вошли, страница сейчас перезагрузится');
+
+        localStorage.auth = true
 
         setTimeout(() => window.location.reload(), 2000)
       }).catch(function (error) {
@@ -146,6 +159,11 @@ export default {
         const toast = useToast();
         toast.error(error.message);
       })
+    },
+
+    logout () {
+      localStorage.auth = false;
+      window.location.href = '/logout'
     }
   },
 }

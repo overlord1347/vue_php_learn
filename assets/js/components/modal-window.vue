@@ -34,7 +34,7 @@ export default {
     closeModal: function () {
       this.show = false
     }
-  }
+  },
 }
 </script>
 <style scoped

@@ -1,4 +1,5 @@
 <template>
+
   <h2 class="center">Онлайн Чат</h2>
 
   <div id="main-container" class="hidden">
@@ -15,7 +16,9 @@
 
 </template>
 
+
 <script>
+
 
 import axios from 'axios'
 
@@ -24,33 +27,8 @@ window.onload = function () {
   block.scrollTop = block.scrollHeight;
 };
 
-const url = new URL('http://127.0.0.1:3000/.well-known/mercure');
-url.searchParams.append('topic', '/conversations/1');
-
-const es = new EventSource(url);
-es.onmessage = (msg) => {
-  const data = JSON.parse(msg.data);
-  console.log(data)
-  let messagesblock = document.getElementById("messages");
-  const message = document.createElement('p');
-
-  // добавляем соообщение которое пришла к низу блока
-  message.classList.add('text-messages')
-  message.textContent = data.messageText
-  messagesblock.prepend(message)
-
-
-  // скроллим диалог вниз после получения сообщений
-  let block = document.getElementById("messages");
-  block.scrollTop = block.scrollHeight;
-}
-
-
-
 
 export default {
-
-
   name: 'App',
 
   data() {
@@ -86,8 +64,26 @@ export default {
   },
 
   mounted() {
+
+    // получаем последние сообщения
     axios.get("message/get/all").then(response => (this.messagesList = response.data))
 
+    // открываем соеденение для получения новых сообщений
+    const url = new URL('http://127.0.0.1:3000/.well-known/mercure');
+    url.searchParams.append('topic', '/conversations/1');
+
+    const es = new EventSource(url);
+    es.onmessage = (msg) => {
+      const data = JSON.parse(msg.data);
+      console.log(data)
+      let messagesblock = document.getElementById("messages");
+      const message = document.createElement('p');
+
+      // добавляем соообщение которое пришла к низу блока
+      message.classList.add('text-messages')
+      message.textContent = data.messageText
+      messagesblock.prepend(message)
+    }
   }
 };
 </script>

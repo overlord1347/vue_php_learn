@@ -13,6 +13,7 @@ const modalWindow = createApp(ModalAuth)
 const app = createApp(App)
 
 app.use(Toast)
+
 modalWindow.use(Toast)
 
 app.mount("#app")
