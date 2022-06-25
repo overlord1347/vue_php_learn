@@ -89,9 +89,35 @@ class MessageController extends AbstractController
      *
      * @return void
      */
-    public function getAllMessages(SerializerInterface $serializer): Response
+    public function getAllMessages(Request $request, SerializerInterface $serializer): Response
     {
         $messagesList = $this->messageRepository->findBy([], ['date_created' => 'DESC'], 10);
+
+        $messages = $serializer->serialize($messagesList, 'json', [
+            'attributes' => ['id', 'messageText']]);
+
+        return new Response($messages);
+    }
+
+    /**
+     * @Route("/get")
+     *
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     *
+     * @return Response
+     */
+    public function getMessages(Request $request, SerializerInterface $serializer)
+    {
+        $page = $request->query->get('page');
+        $limit = 10;
+
+        $messagesList = $this->messageRepository->findBy(
+            [],
+            ['date_created' => 'DESC'],
+            $limit,
+            ($page - 1) * $limit
+        );
 
         $messages = $serializer->serialize($messagesList, 'json', [
             'attributes' => ['id', 'messageText']]);

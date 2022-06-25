@@ -5,7 +5,7 @@
   <div id="main-container" class="hidden">
     <div id="messages">
 
-      <p class="text-messages" v-for="message in messagesList"> {{message.messageText}}</p>
+      <p class="text-messages" v-for="message in messagesList"> {{ message.messageText }}</p>
     </div>
 
     <div id="msg-container">
@@ -18,7 +18,6 @@
 
 
 <script>
-
 
 import axios from 'axios'
 
@@ -34,12 +33,12 @@ export default {
   data() {
     return {
       messagesList: [],
-      messageText: ""
+      messageText: "",
+      page: 1
     }
   },
 
   methods: {
-
     sendMessage: function () {
       const formData = new FormData();
 
@@ -54,11 +53,34 @@ export default {
               "Content-type": "application/json",
             }
           }).then(function (response) {
+
+        let block = document.getElementById("messages");
+        block.scrollTop = block.scrollHeight;
+
         console.log(response)
       }).catch(function (error) {
         console.log(error)
       })
       this.$data.messageText = ""
+
+    },
+
+    scrollMessage: function () {
+
+      let messagesblock = document.getElementById("messages");
+
+      var heiscroll = -200;
+      var page = 2;
+      messagesblock.onscroll = () => {
+
+        // если скроллим вверх
+        if (messagesblock.scrollTop < heiscroll) {
+          axios.get('message/get/?page=' + page).then(response => (Array.prototype.push.apply(this.messagesList, response.data)))
+
+          heiscroll-=250;
+          page++;
+        }
+      }
 
     }
   },
@@ -75,7 +97,6 @@ export default {
     const es = new EventSource(url);
     es.onmessage = (msg) => {
       const data = JSON.parse(msg.data);
-      console.log(data)
       let messagesblock = document.getElementById("messages");
       const message = document.createElement('p');
 
@@ -84,6 +105,8 @@ export default {
       message.textContent = data.messageText
       messagesblock.prepend(message)
     }
+
+    this.scrollMessage();
   }
 };
 </script>
