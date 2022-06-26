@@ -91,10 +91,12 @@ class MessageController extends AbstractController
      */
     public function getAllMessages(Request $request, SerializerInterface $serializer): Response
     {
-        $messagesList = $this->messageRepository->findBy([], ['date_created' => 'DESC'], 10);
+        $limit = 10;
+
+        $messagesList = $this->messageRepository->getMessagesWithUserInfo($limit, 1);
 
         $messages = $serializer->serialize($messagesList, 'json', [
-            'attributes' => ['id', 'messageText']]);
+            'attributes' => ['id', 'messageText', 'name']]);
 
         return new Response($messages);
     }
@@ -109,18 +111,13 @@ class MessageController extends AbstractController
      */
     public function getMessages(Request $request, SerializerInterface $serializer)
     {
-        $page = $request->query->get('page');
+        $page = $request->query->getInt('page');
         $limit = 10;
 
-        $messagesList = $this->messageRepository->findBy(
-            [],
-            ['date_created' => 'DESC'],
-            $limit,
-            ($page - 1) * $limit
-        );
+        $messagesList = $this->messageRepository->getMessagesWithUserInfo($limit, $page);
 
         $messages = $serializer->serialize($messagesList, 'json', [
-            'attributes' => ['id', 'messageText']]);
+            'attributes' => ['id', 'messageText', 'name']]);
 
         return new Response($messages);
     }

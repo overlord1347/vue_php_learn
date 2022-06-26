@@ -5,7 +5,10 @@
   <div id="main-container" class="hidden">
     <div id="messages">
 
-      <p class="text-messages" v-for="message in messagesList"> {{ message.messageText }}</p>
+      <template v-for="message in messagesList">
+        <p class="text-messages" > {{ message.message_text }}</p>
+        <h6 style="color: black; margin-bottom: 2px"> {{ message.name }}</h6>
+      </template>
     </div>
 
     <div id="msg-container">
@@ -77,7 +80,7 @@ export default {
         if (messagesblock.scrollTop < heiscroll) {
           axios.get('message/get/?page=' + page).then(response => (Array.prototype.push.apply(this.messagesList, response.data)))
 
-          heiscroll-=250;
+          heiscroll -= 250;
           page++;
         }
       }

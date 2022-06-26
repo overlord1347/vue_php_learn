@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Message;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,6 +41,20 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return array
+     */
+    public function getMessagesWithUserInfo(int $limit, int $page)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('m.message_text', 'm.date_created', 'u.name')
+        ->innerJoin(User::class, 'u', Join::WITH, $qb->expr()->eq('m.sender_id', 'u.id'))
+        ->setFirstResult(($page - 1) * $limit)
+        ->setMaxResults($limit)
+        ->addOrderBy('m.date_created', 'DESC');
+
+        return $qb->getQuery()->getResult() ?? [];
+    }
 //    /**
 //     * @return Message[] Returns an array of Message objects
 //     */
